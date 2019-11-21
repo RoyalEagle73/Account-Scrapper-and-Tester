@@ -9,9 +9,11 @@
   2) Netflix
   3) Gmail
 
-### Language Used - JAVA
+## Language Used
+  JAVA
 
-### Site used to scrap combos - Pastebin.com
+### Site used to scrap combos 
+  Pastebin.com
 
 ### Library used
   1) HtmlUnit
