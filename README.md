@@ -12,10 +12,10 @@
 ## Language Used
   JAVA
 
-### Site used to scrap combos 
+## Site used to scrap combos 
   Pastebin.com
 
-### Library used
+## Library used
   1) HtmlUnit
   2) Regex
   
