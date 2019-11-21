@@ -1,8 +1,8 @@
 # Account-Scrapper-and-Tester (Under Development)
 
 ## DISCLAIMER
-  This software is for education purpose only, using this for any illegal process is strictly prohibited.
-  Using anyone's account with his permissions is a punishable offence.
+  **This software is for education purpose only, using this for any illegal process is strictly prohibited.
+  Using anyone's account with his permissions is a punishable offence.**
 
 ## Accounts Supported for tester
   1) Facebook
