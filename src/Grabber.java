@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JLabel;
+
 class Grabber {
 	
 	Set<String> temp_url_list;
@@ -14,10 +16,10 @@ class Grabber {
 		this.data_to_fetch = data;
 	}
 	
-	Set<String> getFinalUrls(){
+	Set<String> getFinalUrls(JLabel label){
 			for(String data : data_to_fetch) {
 				url_leech leech_object = new url_leech(data);
-				temp_url_list = leech_object.ret_url();
+				temp_url_list = leech_object.ret_url(label);
 				for(String url:temp_url_list) {
 					try {
 						final_url_list.add(url);	

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 
 import javax.swing.JLabel;
@@ -17,8 +18,9 @@ public class finalChecker {
 	public void doFinalCheck() throws IOException {
 		if(data == "Facebook") {
 			try {
+				outputLabel.setForeground(Color.RED);
 				facebookLoginCheck checker = new facebookLoginCheck(file, outputLabel);
-				outputLabel.setText("Testing Started");
+				outputLabel.setText("Check Internet Connection");
 				checker.doCheck(outputLabel);
 			} catch (Exception e) {
 				System.out.println(e);
@@ -27,7 +29,8 @@ public class finalChecker {
 		}
 		else {
 			try {
-				outputLabel.setText("Testing Started");
+				outputLabel.setForeground(Color.RED);
+				outputLabel.setText("Check Internet Connection");
 				netflixLoginCheck checker = new netflixLoginCheck(file, outputLabel);
 				checker.doCheck(outputLabel);
 			} catch (Exception e) {

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -5,6 +6,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.JLabel;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
@@ -28,7 +31,7 @@ public class url_leech{
 		this.final_url = "https://pastebin.com/search?q=" + query ;
 	}
 	
-	public Set<String> ret_url() {
+	public Set<String> ret_url(JLabel resultLabel) {
 //		webClient.getOptions().setThrowExceptionOnScriptError(true);
 		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
 //		webClient.getOptions().setJavaScriptEnabled(true);
@@ -41,6 +44,8 @@ public class url_leech{
 			System.out.println("Page Loaded");
 		} catch (FailingHttpStatusCodeException | IOException e) {
 			System.out.println("Could Not Load Page for " + query);
+			resultLabel.setForeground(Color.RED);
+			resultLabel.setText("Check Internet Connection");
 			continues = false;
 		}
 	

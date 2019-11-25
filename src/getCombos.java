@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
@@ -43,7 +44,7 @@ class getCombos{
 	
 	Set<String> getCombinations() throws NullPointerException{
 		grabber = new Grabber(sites_to_check);
-		urls_to_check=grabber.getFinalUrls();
+		urls_to_check=grabber.getFinalUrls(resultLabel);
 		int done = 1;
 		for(String url:urls_to_check) {
 			for(String combo:retCombos(url)) {
@@ -72,7 +73,7 @@ class getCombos{
 			page = webClient.getPage(url);
 			System.out.println("Page Loaded");
 		} catch (Exception e) {
-			System.out.println("Could Not Load Page" + e);
+			System.out.println("Could Not Load Page" + e +"\n Check Internet Connection");
 			continues  = false;
 		}
 	
@@ -91,7 +92,6 @@ class getCombos{
 				}
 			} catch(Exception e) {}
 			System.out.println("Got "+ tempCombos.size()+ "Combos...");
-			System.out.println("Got out biatch");
 		}
 		// Returning Urls
 		return tempCombos;

@@ -54,14 +54,14 @@ public class headAcheUI {
 		frame.getContentPane().setLayout(null);
 		
 		
-		JLabel title = new JLabel("HEADACHE");
+		JLabel title = new JLabel("LEECH");
 		title.setHorizontalAlignment(0);
 		title.setForeground(UIManager.getColor("ToolBar.dockingForeground"));
 		title.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		title.setBounds(131, 0, 182, 27);
 		frame.getContentPane().add(title);
 		
-		JLabel version = new JLabel("v1.0 Beta");
+		JLabel version = new JLabel("v3.0 Beta");
 		version.setHorizontalAlignment(0);
 		version.setForeground(UIManager.getColor("TextPane.selectionBackground"));
 		version.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -103,11 +103,15 @@ public class headAcheUI {
 
 		ScrapButton.addActionListener(new ActionListener(){ 
 		    public void actionPerformed(ActionEvent e){
-		    	ScrapResult.repaint();
-		    	getCombos get = new getCombos(ScrapChoice.getSelectedItem(),ScrapResult);
-		    	get.finish();
+		    	try {
+		    		getCombos get = new getCombos(ScrapChoice.getSelectedItem(),ScrapResult);
+			    	get.finish();
+				} catch (Exception e2) {
+					ScrapResult.setText("Check Internet Connection");
+				}
+		    	
 		    	ScrapResult.setForeground(Color.GREEN);
-		    	ScrapResult.setText("Procedure Completed for " + ScrapChoice.getSelectedItem() + "you can see combos in file Combos.txt.");
+		    	ScrapResult.setText("Procedure Completed for " + ScrapChoice.getSelectedItem() + ", you can see combos in file Combos.txt.");
 		    	}
 		    } 
 		);

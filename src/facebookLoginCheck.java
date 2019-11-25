@@ -87,8 +87,12 @@ class facebook{
 	    	// Executed when there is internet connection error.
 	        return 3;
 	    	}
-	    // Executed when account is not valid
-	    return 2;
+	    // Executed when account is valid as login gets it to facebook homepage 
+	    if(loginPage.getUrl().toString().contains("login"))
+	    	return 2;
+	 // Executed when account is invalid
+	    else
+	    	return 1;
 	}
 	
 }
