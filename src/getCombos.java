@@ -2,17 +2,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JLabel;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.sun.corba.se.impl.orbutil.threadpool.TimeoutException;
 
-class getCombos {
+class getCombos{
 	Set<String> urls_to_check;
 	Set<String> sites_to_check;
 	Set<String> finalCombos;
@@ -21,34 +22,33 @@ class getCombos {
 	final WebClient webClient;
 	String output;
 	FileWriter fw;
+	JLabel resultLabel;
 	
-	getCombos(){
+	getCombos(String myCombos, JLabel resultLabel){
+		this.resultLabel = new JLabel();
+		this.resultLabel = resultLabel;
 		try {
 			fw = new FileWriter("combos.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		finalSet = new HashSet<String>();
 		output = "";
 		urls_to_check = new HashSet<String>();
 		sites_to_check = new HashSet<String>();
-		finalCombos = new HashSet<String>();
-		sites_to_check.add("facebook");
-		sites_to_check.add("netflix");
-		sites_to_check.add("gmail");
-		sites_to_check.add("10K+Combo");
-		webClient = new WebClient(BrowserVersion.FIREFOX_60);
+		sites_to_check.add(myCombos);
+		this.finalCombos = new HashSet<String>();
+		webClient = new WebClient(BrowserVersion.CHROME);
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
 	}
 	
-	Set<String> getCombinations(){
+	Set<String> getCombinations() throws NullPointerException{
 		grabber = new Grabber(sites_to_check);
 		urls_to_check=grabber.getFinalUrls();
 		int done = 1;
 		for(String url:urls_to_check) {
 			for(String combo:retCombos(url)) {
-				finalCombos.add(combo);
-//				System.out.println(urls_to_check);
+				if(combo.length() > 1)
+					finalCombos.add(combo);
 			}
 			System.out.println(done+"/"+urls_to_check.size()+" Done");
 			System.out.println("\n\n***************************************************\\n\\n\\n");
@@ -57,21 +57,22 @@ class getCombos {
 		return finalCombos;
 	}
 	
-	public Set<String> retCombos(String url) {
+	public Set<String> retCombos(String url) throws NullPointerException {
+//		WebClient webClient = new WebClient();
 		Set<String> tempCombos = new HashSet<String>();
+		tempCombos.add("");
 		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
 		HtmlPage page = null;
 		boolean continues = true;
 		//Opening Page In webClient
 		try {
 			System.out.println("\n\n\n***************************************************");
+			resultLabel.setText("Opening "+url+ " to get Combos");
 			System.out.println("Opening "+url+ " to get Combos");
 			page = webClient.getPage(url);
-//			webClient.waitForBackgroundJavaScript(10000);
 			System.out.println("Page Loaded");
-		} catch (FailingHttpStatusCodeException | IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Could Not Load Page");
+		} catch (Exception e) {
+			System.out.println("Could Not Load Page" + e);
 			continues  = false;
 		}
 	
@@ -85,45 +86,34 @@ class getCombos {
 					tempCombos = extractCombos(temp);
 				}
 				else {
-					System.out.println("Got "+ tempCombos.size()+ "Combos...");
+					resultLabel.setText("Got "+ tempCombos.size()+ "Combos...");
 					return tempCombos;
 				}
-			} catch(Exception e) {
-				// TODO: handle exception
-			}
+			} catch(Exception e) {}
 			System.out.println("Got "+ tempCombos.size()+ "Combos...");
+			System.out.println("Got out biatch");
 		}
 		// Returning Urls
 		return tempCombos;
 	}
 	
-	private static Set<String> extractCombos(String text)
+	private static Set<String> extractCombos(String text) throws TimeoutException
 	{	
 		System.out.println("Size of text is "+text.length());
 	    Set<String> containedCombos = new HashSet<String>();
-//	    System.out.println("2");
+
 	    String urlRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"+"(:[\\w]+)";
-//	    System.out.println("3");
 	    Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
-//	    System.out.println("4");
 	    Matcher urlMatcher = pattern.matcher(text);
-//	    System.out.println("5");
 	    
 	    while (urlMatcher.find())
 	    {
-//	    	System.out.println("6");
 	    	try {
-//	    		System.out.println("7");
 	    	    containedCombos.add(text.substring(urlMatcher.start(0),
 		                urlMatcher.end(0)));
-//	    	    System.out.println("8");
 	    	    } catch (Exception e) {
-				// TODO: handle exception
 			}
-//	    	System.out.println("9");
 	    }
-//	    System.out.println("10");
-	    
 	    return containedCombos;
 	}
 	
@@ -133,18 +123,15 @@ class getCombos {
 			output += combo + "\n";
 	}
 		try {
-			System.out.println("Writing Combos into file.");
+//			resultLabel.setText("Writing Combos into file.");
 			fw.write(output);
-			System.out.println("Writing Combos Done.");
+//			resultLabel.setText("Check combos.txt file in Output folder. Scrapping done.");
 		} catch (IOException e) {
-			System.out.println("Writing Failed");
+//			resultLabel.setText("Writing Failed");
 		}finally {
 			try {
 				fw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (IOException e) {}
 		}
 	}
 	

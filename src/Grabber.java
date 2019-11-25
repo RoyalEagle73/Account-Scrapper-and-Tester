@@ -15,21 +15,16 @@ class Grabber {
 	}
 	
 	Set<String> getFinalUrls(){
-		if(data_to_fetch.isEmpty()) {
-			System.out.println("No File selected");
-		}
-		else {
 			for(String data : data_to_fetch) {
 				url_leech leech_object = new url_leech(data);
 				temp_url_list = leech_object.ret_url();
 				for(String url:temp_url_list) {
 					try {
 						final_url_list.add(url);	
-					} catch (Exception e) {
+						} catch (Exception e) {
 					}
 				}
 			}
-		}
 		return final_url_list;
 	}
 	

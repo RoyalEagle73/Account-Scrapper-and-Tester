@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,11 +6,9 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.gargoylesoftware.htmlunit.AjaxController;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -41,10 +38,8 @@ public class url_leech{
 		try {
 			System.out.println("Opening URL " + final_url);
 			page = webClient.getPage(final_url);
-//			webClient.waitForBackgroundJavaScript(10000);
 			System.out.println("Page Loaded");
 		} catch (FailingHttpStatusCodeException | IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Could Not Load Page for " + query);
 			continues = false;
 		}
