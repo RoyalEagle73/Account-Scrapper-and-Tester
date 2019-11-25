@@ -7,7 +7,6 @@
 ## Accounts Supported for tester
   1) Facebook
   2) Netflix
-  3) Gmail
 
 ## Language Used
   JAVA
